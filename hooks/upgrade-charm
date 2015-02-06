@@ -60,7 +60,7 @@ install_app() {
   cp --recursive $CHARM_DIR/local /opt
   cd /opt
     
-  chown -Rf ubuntu.ubuntu ${app_dir}
+  sudo chown -Rf ubuntu.ubuntu ${app_dir}
   
   if [ -f ${app_dir}/package.json ]; then
     cd ${app_dir} && sudo npm install
@@ -68,10 +68,10 @@ install_app() {
 
   # If Procfile found, use it with foreman module
   if [ -f ${app_dir}/Procfile ]; then
-    npm install -g foreman
+    sudo npm install -g foreman
   else
     cat > /etc/init/${app_name}.conf <<EOS
-description "${app_name} node.js server"
+description "${app_name} server"
  
 start on (net-device-up
           and local-filesystems
@@ -83,7 +83,7 @@ respawn
  
 script
   export HOME=/
-  export NODE_PATH=${node_dir}/lib/node
+  export NODE_PATH=${node_dir}/lib/node_modules
   exec ${node_dir}/bin/node ${app_dir}/${node_server} >> /var/log/${app_name}.log 2>&1 &
 end script
 EOS
@@ -94,6 +94,7 @@ EOS
 open-port 80/TCP
 open-port 443/TCP
 
+cd ${app_dir}
 setcap 'cap_net_bind_service=+ep' ${node_dir}/bin/node
 
 juju-log "Delaying app startup until mongodb joins" 
