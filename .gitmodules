@@ -1,0 +1,3 @@
+[submodule "local"]
+	path = local
+	url = https://github.com/BClark-Grad-Project/site-template.git

@@ -16,12 +16,13 @@ replset=`relation-get replset`
 
 install_root=`config-get install_root`
 app_name=`config-get app_name`
-app_dir="$install_root/$app_name"
+app_dir="$install_root/local"
 
 configure_app() {
   juju-log "configuring ${app_name} to work with the mongodb service"
 
-  config_file_path=$app_dir/config/config.js
+  config_file_authorizations=$app_dir/node_modules/site-data/node_modules/site-auth/config/conf.js
+  config_file_user_details=$app_dir/node_modules/site-data/node_modules/site-user/config/conf.js
 
   if [ -f ${app_dir}/Procfile ]; then
     cat > /etc/juju_nodejs_app_${app_name}_mongodb.env <<EOF
@@ -33,11 +34,16 @@ configure_app() {
 EOF
     MY_DIR=`dirname $0`
     $MY_DIR/config-changed
-  elif [ -f $config_file_path ]; then
-    juju-log "Writing $app_name config file $config_file_path"
-    sed -i "s/mongo_host.*/mongo_host\" : \"${host}\"/" $config_file_path
-    sed -i "s/mongo_port.*/mongo_port\" : ${port}/" $config_file_path
-    sed -i "s/mongo_replset.*/mongo_replset\" : \"${replset}\"/" $config_file_path
+  else
+    juju-log "Writing $app_name mongodb config files."
+    
+    sed -i "s/mongo_host.*/mongo_host\" : \"${host}\"/" $config_file_user_details
+    sed -i "s/mongo_port.*/mongo_port\" : ${port}/" $config_file_user_details
+    #sed -i "s/mongo_replset.*/mongo_replset\" : \"${replset}\"/" $config_file_user_details
+    
+    sed -i "s/mongo_host.*/mongo_host\" : \"${host}\"/" $config_file_authorizations
+    sed -i "s/mongo_port.*/mongo_port\" : ${port}/" $config_file_authorizations
+    #sed -i "s/mongo_replset.*/mongo_replset\" : \"${replset}\"/" $config_file_authorizations
   fi
 
   app_port=`config-get app_port`
