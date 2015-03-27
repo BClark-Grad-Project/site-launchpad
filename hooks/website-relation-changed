@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+# hooks/website-relation-changed
 
-relation-set port=`config-get app_port` hostname=`unit-get private-address`
-
+host=$(unit-get private-address)
+port=80
