@@ -55,9 +55,19 @@ install_node() {
 }
 [[ -x /usr/bin/node ]] || install_node
 
-install_app() {
-  juju-log "Copying site-template directory..."
+copy_auths_dir() {
+  juju-log "Copying authorizations directory..."
+  cp --recursive $CHARM_DIR/auths/* /opt
+}
+
+copy_saas_app() {
+  juju-log "Copying SaaS application directory..."
   cp --recursive $CHARM_DIR/local /opt
+}
+
+install_app() {
+  copy_auths_dir
+  copy_saas_app
   cd /opt
     
   sudo chown -Rf ubuntu.ubuntu ${app_dir}
@@ -66,11 +76,7 @@ install_app() {
     cd ${app_dir} && sudo npm install
   fi
 
-  # If Procfile found, use it with foreman module
-  if [ -f ${app_dir}/Procfile ]; then
-    sudo npm install -g foreman
-  else
-    cat > /etc/init/${app_name}.conf <<EOS
+  cat > /etc/init/${app_name}.conf <<EOS
 description "${app_name} server"
  
 start on (net-device-up
@@ -87,7 +93,6 @@ script
   exec ${node_dir}/bin/node ${app_dir}/${node_server} >> /var/log/${app_name}.log 2>&1 &
 end script
 EOS
-  fi
 }
 [[ -d ${app_dir} ]] || install_app
 
