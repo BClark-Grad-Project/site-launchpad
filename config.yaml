@@ -1,7 +1,7 @@
 options:
   app_name:
     type: string
-    default: site-template
+    default: gradproject
     description: Network Name
   app_port:
     type: int

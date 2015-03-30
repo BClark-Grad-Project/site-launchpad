@@ -1,5 +1,5 @@
-name: site-launchpad
-summary: "Deploy a site-template based application to SaaS network."
+name: gradproject
+summary: "Deploy a gradproject information and management to SaaS network."
 description: "Deploy a user-defined node.js application to existing network."
 categories:
     - app-servers
