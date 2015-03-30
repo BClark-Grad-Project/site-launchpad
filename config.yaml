@@ -1,7 +1,7 @@
 options:
   app_name:
     type: string
-    default: GraduateProject
+    default: site-template
     description: Network Name
   app_port:
     type: int
