@@ -21,6 +21,7 @@ app_name=`config-get app_name`
 app_dir="$install_root/local"
 
 config_auth_host() {
+  juju-log "Authorization mongodb service"
   config_file_authorizations=$app_dir/node_modules/site-data/node_modules/site-auth/config/conf.js
   config_file_user_details=$app_dir/node_modules/site-data/node_modules/site-user/config/conf.js
   
@@ -34,6 +35,7 @@ config_auth_host() {
 }
 
 config_app_host(){
+  juju-log "Application mongodb service"
   config_file_blog=$app_dir/node_modules/site-data/node_modules/site-blog/config/conf.js
   config_file_project=$app_dir/node_modules/site-data/node_modules/site-project/config/conf.js
   
@@ -47,14 +49,13 @@ config_app_host(){
 }
 
 configure_app() {
-  juju-log "configuring ${app_name} to work with the mongodb service"
-
-
   juju-log "Writing $app_name mongodb config files."
-  if [ == 'auth-db']; then
+  if [ $host_service_name = "auth-db" ]; then
     config_auth_host
-  elif[host_service_name == '${app_name}-db' ]
+  elif [ $host_service_name = "${app_name}-db" ]; then
     config_app_host
+  else
+    juju-log "Disconnecting / Problem with MongoDB relation!"
   fi
 
   app_port=`config-get app_port`
