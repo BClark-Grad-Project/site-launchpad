@@ -37,7 +37,7 @@ config_auth_host() {
 config_app_host(){
   juju-log "Application mongodb service"
   config_file_blog=$app_dir/node_modules/site-data/node_modules/site-blog/config/conf.js
-  config_file_project=$app_dir/node_modules/site-data/node_modules/site-project/config/conf.js
+  config_file_project=$app_dir/node_modules/site-data/node_modules/site-projects/config/conf.js
   
   sed -i "s/mongo_host.*/mongo_host\" : \"${host}\"/" $config_file_blog
   sed -i "s/mongo_port.*/mongo_port\" : ${port}/" $config_file_blog
