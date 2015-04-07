@@ -1,4 +1,4 @@
-name: site-launchpad
+name: mindprojectdev
 summary: "Deploy a site-template based application to SaaS network."
 description: "Deploy a user-defined node.js application to existing network."
 categories:
