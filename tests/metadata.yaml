@@ -1,0 +1,12 @@
+name: site-launchpad
+summary: "Deploy a site-template based application to SaaS network."
+description: "Deploy a user-defined node.js application to existing network."
+categories:
+    - app-servers
+maintainer: Brandon L. Clark <bclark10@csu.fullerton.edu>
+requires:
+  mongodb:
+    interface: mongodb
+provides:
+  website:
+    interface: http
