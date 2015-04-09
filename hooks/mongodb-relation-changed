@@ -41,6 +41,12 @@ config_app_host(){
   sed -i "s/mongo_host.*/mongo_host\" : \"${host}\"/" $config_file_blog
   sed -i "s/mongo_port.*/mongo_port\" : ${port}/" $config_file_blog
   #sed -i "s/mongo_replset.*/mongo_replset\" : \"${replset}\"/" $config_file_blog
+  
+  config_file_survey=$app_dir/node_modules/site-data/node_modules/site-survey/config/conf.js
+  
+  sed -i "s/mongo_host.*/mongo_host\" : \"${host}\"/" $config_file_survey
+  sed -i "s/mongo_port.*/mongo_port\" : ${port}/" $config_file_survey
+  #sed -i "s/mongo_replset.*/mongo_replset\" : \"${replset}\"/" $config_file_survey
 }
 
 configure_app() {
