@@ -62,9 +62,9 @@ configure_app() {
   if [ $host_service_name = "auth-db" ]; then
     config_auth_host
   elif [ $host_service_name = "${app_name}-db" ]; then
-    config_app_api
-  elif [ $host_service_name = "${app_name}dev-db" ]; then
     config_app_host
+  elif [ $host_service_name = "mindproject-db" ]; then
+    config_app_api
   else
     juju-log "Disconnecting / Problem with MongoDB relation!"
   fi
